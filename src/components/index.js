@@ -6,6 +6,7 @@
  */
 
 export CounterButton from './CounterButton/CounterButton';
+export DoubleCounterButton from './CounterButton/DoubleCounterButton';
 export GithubButton from './GithubButton/GithubButton';
 export InfoBar from './InfoBar/InfoBar';
 export MiniInfoBar from './MiniInfoBar/MiniInfoBar';

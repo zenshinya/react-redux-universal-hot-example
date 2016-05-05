@@ -17,7 +17,8 @@ export default combineReducers({
   multireducer: multireducer({
     counter1: counter,
     counter2: counter,
-    counter3: counter
+    counter3: counter,
+    counter4: counter
   }),
   info,
   widgets

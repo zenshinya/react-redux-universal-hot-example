@@ -36,13 +36,15 @@ export default function reducer(state = initialState, action = {}) {
     case LOGIN:
       return {
         ...state,
-        loggingIn: true
+        loggingIn: true,
+        loginError: ''
       };
     case LOGIN_SUCCESS:
       return {
         ...state,
         loggingIn: false,
-        user: action.result
+        user: action.result,
+        loginError: ''
       };
     case LOGIN_FAIL:
       return {
@@ -84,12 +86,13 @@ export function load() {
   };
 }
 
-export function login(name) {
+export function login(email, pwd) {
   return {
     types: [LOGIN, LOGIN_SUCCESS, LOGIN_FAIL],
     promise: (client) => client.post('/login', {
       data: {
-        name: name
+        email: email,
+        pwd: pwd
       }
     })
   };

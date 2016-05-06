@@ -8,7 +8,7 @@ import NavItem from 'react-bootstrap/lib/NavItem';
 import Helmet from 'react-helmet';
 import { isLoaded as isInfoLoaded, load as loadInfo } from 'redux/modules/info';
 import { isLoaded as isAuthLoaded, load as loadAuth, logout } from 'redux/modules/auth';
-import { open as openPopup } from 'redux/modules/popup';
+import { open as openPopup, close as closePopup } from 'redux/modules/popup';
 import { InfoBar, Popup } from 'components';
 import { push } from 'react-router-redux';
 import config from '../../config';
@@ -30,13 +30,14 @@ import { asyncConnect } from 'redux-async-connect';
 }])
 @connect(
   state => ({user: state.auth.user}),
-  {logout, openPopup, pushState: push})
+  {logout, openPopup, closePopup, pushState: push})
 export default class App extends Component {
   static propTypes = {
     children: PropTypes.object.isRequired,
     user: PropTypes.object,
     logout: PropTypes.func.isRequired,
     openPopup: PropTypes.func.isRequired,
+    closePopup: PropTypes.func.isRequired,
     pushState: PropTypes.func.isRequired
   };
 
@@ -48,6 +49,7 @@ export default class App extends Component {
     if (!this.props.user && nextProps.user) {
       // login
       this.props.pushState('/loginSuccess');
+      this.props.closePopup();
     } else if (this.props.user && !nextProps.user) {
       // logout
       this.props.pushState('/');
@@ -109,7 +111,7 @@ export default class App extends Component {
               </LinkContainer>}
             </Nav>
             {user &&
-            <p className={styles.loggedInMessage + ' navbar-text'}>Logged in as <strong>{user.name}</strong>.</p>}
+            <p className={styles.loggedInMessage + ' navbar-text'}>Logged in as <strong>{user.email}</strong>.</p>}
             <Nav navbar pullRight>
               <NavItem eventKey={1} target="_blank" title="View on Github" href="https://github.com/erikras/react-redux-universal-hot-example">
                 <i className="fa fa-github"/>

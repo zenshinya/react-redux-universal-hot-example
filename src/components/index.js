@@ -7,6 +7,7 @@
 
 export CounterButton from './CounterButton/CounterButton';
 export DoubleCounterButton from './CounterButton/DoubleCounterButton';
+export Popup from './Popup/Popup';
 export GithubButton from './GithubButton/GithubButton';
 export InfoBar from './InfoBar/InfoBar';
 export MiniInfoBar from './MiniInfoBar/MiniInfoBar';

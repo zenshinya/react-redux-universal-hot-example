@@ -8,7 +8,8 @@ import NavItem from 'react-bootstrap/lib/NavItem';
 import Helmet from 'react-helmet';
 import { isLoaded as isInfoLoaded, load as loadInfo } from 'redux/modules/info';
 import { isLoaded as isAuthLoaded, load as loadAuth, logout } from 'redux/modules/auth';
-import { InfoBar } from 'components';
+import { open as openPopup } from 'redux/modules/popup';
+import { InfoBar, Popup } from 'components';
 import { push } from 'react-router-redux';
 import config from '../../config';
 import { asyncConnect } from 'redux-async-connect';
@@ -29,12 +30,13 @@ import { asyncConnect } from 'redux-async-connect';
 }])
 @connect(
   state => ({user: state.auth.user}),
-  {logout, pushState: push})
+  {logout, openPopup, pushState: push})
 export default class App extends Component {
   static propTypes = {
     children: PropTypes.object.isRequired,
     user: PropTypes.object,
     logout: PropTypes.func.isRequired,
+    openPopup: PropTypes.func.isRequired,
     pushState: PropTypes.func.isRequired
   };
 
@@ -55,6 +57,11 @@ export default class App extends Component {
   handleLogout = (event) => {
     event.preventDefault();
     this.props.logout();
+  };
+
+  openLoginPopup = (event) => {
+    event.preventDefault();
+    this.props.openPopup();
   };
 
   render() {
@@ -92,9 +99,8 @@ export default class App extends Component {
               </LinkContainer>
 
               {!user &&
-              <LinkContainer to="/login">
-                <NavItem eventKey={5}>Login</NavItem>
-              </LinkContainer>}
+                <NavItem eventKey={5} onClick={this.openLoginPopup}>Login</NavItem>
+              }
               {user &&
               <LinkContainer to="/logout">
                 <NavItem eventKey={6} className="logout-link" onClick={this.handleLogout}>
@@ -123,6 +129,9 @@ export default class App extends Component {
           target="_blank">on Github</a> or in the <a
           href="https://discord.gg/0ZcbPKXt5bZZb1Ko" target="_blank">#react-redux-universal</a> Discord channel.
         </div>
+
+        <Popup/>
+
       </div>
     );
   }
